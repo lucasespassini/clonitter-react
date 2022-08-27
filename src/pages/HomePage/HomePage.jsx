@@ -41,7 +41,19 @@ export default function HomePage() {
 
   return (
     <Container>
-      {component}
+      {posts.length > 0 ?
+        posts.map(post =>
+          <PostComp
+            key={post.id}
+            uuid={post.uuid}
+            content={post.content}
+            likes={post.likes}
+            createdAt={post.createdAt}
+            comments={post.comments}
+            user={post.user}
+          />
+        ) : <p>Não há posts</p>
+      }
     </Container>
   );
 }
