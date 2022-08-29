@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { Container } from "@chakra-ui/react";
 import PostComp from "../../components/Post/Post";
 import axios from 'axios'
+import PostLoader from "../../components/Loading/PostLoader";
 
 export default function HomePage() {
+  const [isLoaded, setIsLoaded] = useState(false)
   const [posts, setPosts] = useState([])
 
   useEffect(() => {
@@ -17,6 +19,7 @@ export default function HomePage() {
         const res = await axios
           .get('http://localhost:3000/post', req)
         setPosts(res.data)
+        setIsLoaded(true)
       } catch (error) {
         console.log(error)
       }
@@ -24,24 +27,9 @@ export default function HomePage() {
     getPosts()
   }, [])
 
-  const component = []
-  posts.forEach(post => {
-    component.push(
-      <PostComp
-        key={post.id}
-        uuid={post.uuid}
-        content={post.content}
-        likes={post.likes}
-        createdAt={post.createdAt}
-        comments={post.comments}
-        user={post.user}
-      />
-    )
-  })
-
   return (
     <Container>
-      {posts.length > 0 ?
+      {isLoaded ?
         posts.map(post =>
           <PostComp
             key={post.id}
@@ -52,7 +40,7 @@ export default function HomePage() {
             comments={post.comments}
             user={post.user}
           />
-        ) : <p>Não há posts</p>
+        ) : <PostLoader />
       }
     </Container>
   );
