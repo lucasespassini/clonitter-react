@@ -2,9 +2,9 @@ import axios from "axios"
 import { Avatar, Container, Skeleton, Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import styles from './Perfil.module.css'
+import styles from './PerfilPage.module.css'
 import PostLoader from "../../components/Loading/PostLoader";
-import PostComp from "../../components/Post/Post";
+import Post from "../../components/Post/Post";
 
 export default function Perfil() {
   const { user_name } = useParams()
@@ -19,7 +19,7 @@ export default function Perfil() {
     async function getUser() {
       const req = {
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXVpZCI6ImZlZTViYWY2LTc2NzUtNDVmOC1iZWMzLTY1MjZjODg2MDI2MCIsInByb2ZpbGVfaW1hZ2UiOiIxN2IxMmNkMi1mNTQ2LTRjNDQtOWNlNS01N2Y2NGY4MDNhODAtbWFzc2FnZW0uanBnIiwidXNlcl9uYW1lIjoibWVuZGVzIiwibmFtZSI6Ikx1Y2FzIE1lbmRlcyIsImVtYWlsIjoibHVjYXNAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkYk1yZlV2dTd6Z2xYby9aN29pY3VzZXBKWDh0bHFuYU1ZTnh2THdFVm5VUlBJbFNBbXBiZmEiLCJpYXQiOjE2NjE1NzU4ODMsImV4cCI6MTY2MTc0ODY4M30.HdRN9YpjSEKxXlE4FOpVzqU0vCi2aazU9OGtZtlnyAk`,
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXVpZCI6IjkzMDQ1MjYzLTQ3N2MtNDE3My1hZGM5LWUxNzFjMTljMWUwZiIsInByb2ZpbGVfaW1hZ2UiOiJjYzdkM2VlYi0wMzAyLTQ0NjgtYTg2MS0xZDViNmE4MWQ2OGQtZm90by5qcGciLCJ1c2VyX25hbWUiOiJtZW5kZXMiLCJuYW1lIjoiTHVjYXMgTWVuZGVzIiwiZW1haWwiOiJsdWNhc0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYSQxMCRqYWtrYU9tOW05bVdZMXFWeVA0aS9POGtQSEJZcTJhbllQZC9Dd0Rhd1RzaS9MUUVKRmhtYSIsImlhdCI6MTY2MTg3NDExOSwiZXhwIjoxNjYyMDQ2OTE5fQ.HSnpI5yXMZL1LZeo15pJFyP1d0aFCU75OvJXsGaitYw`,
         },
       };
 
@@ -60,7 +60,7 @@ export default function Perfil() {
           <Avatar
             w={32}
             h={32}
-            className={styles.profile_image}
+            borderRadius={999}
             src={'http://localhost:3000/uploads/profile_image/' + user.profile_image}
             name={user.user_name + '-icon'}
           />
@@ -70,7 +70,7 @@ export default function Perfil() {
           fadeDuration={1}
           borderRadius={8}
         >
-          <Button backgroundColor={'#1A8CD8'}>Seguir</Button>
+          <Button _hover={false} backgroundColor={'#3178c6'}>Seguir</Button>
         </Skeleton>
       </div>
 
@@ -116,7 +116,7 @@ export default function Perfil() {
 
       {
         isLoaded ? user.posts.map(post => (
-          <PostComp
+          <Post
             key={post.id}
             uuid={post.uuid}
             content={post.content}
