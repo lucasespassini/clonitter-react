@@ -3,6 +3,16 @@ import { Link } from "react-router-dom";
 import styles from './Post.module.css'
 
 export default function Post({ uuid, content, likes, createdAt, comments, user }) {
+  function data() {
+    const date = new Date(createdAt).toLocaleString();
+    new Date()
+    // toLocaleDateString() sem argumentos depende da implementação,
+    // o locale padrão, e o time zone padrão
+    // 2022-08-31T19:04:29.000Z
+    console.log(date);
+  }
+  data()
+
   return (
     <section className={styles.postContainer}>
       <Link to={`/perfil/${user.user_name}`} >

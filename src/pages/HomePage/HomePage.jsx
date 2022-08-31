@@ -17,7 +17,7 @@ export default function HomePage() {
       };
       try {
         const res = await axios
-          .get('http://192.168.13.54:3000/post', req)
+          .get('http://localhost:3000/post/user/1/following', req)
         setPosts(res.data)
         setIsLoaded(true)
       } catch (error) {
@@ -28,7 +28,7 @@ export default function HomePage() {
   }, [])
 
   return (
-    <Container>
+    <Container maxW='650'>
       {isLoaded ?
         posts.map(post =>
           <Post

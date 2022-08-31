@@ -35,7 +35,7 @@ export default function Perfil() {
   }, [user_name])
 
   return (
-    <Container>
+    <Container maxW='650'>
       <Skeleton
         isLoaded={isLoaded}
         fadeDuration={1}
