@@ -1,17 +1,30 @@
 import { Avatar } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import moment from "moment";
+import 'moment/locale/pt-br'
 import styles from './Post.module.css'
 
+moment.locale('pt-br')
 export default function Post({ uuid, content, likes, createdAt, comments, user }) {
-  function data() {
-    const date = new Date(createdAt).toLocaleString();
-    new Date()
-    // toLocaleDateString() sem argumentos depende da implementação,
-    // o locale padrão, e o time zone padrão
-    // 2022-08-31T19:04:29.000Z
-    console.log(date);
-  }
-  data()
+  const [timeAgo, setTimeAgo] = useState()
+
+  useEffect(() => {
+    function postTime() {
+      const postData = new Date(createdAt).toLocaleString()
+      const data = postData.split(' ')[0]
+      const horas = postData.split(' ')[1]
+      const hora = horas.split(':')[0]
+      const minuto = horas.split(':')[1]
+      const segundo = horas.split(':')[2]
+      const dia = data.split('/')[0]
+      const mes = data.split('/')[1]
+      const ano = data.split('/')[2]
+      const postDataCerta = `${ano}/${mes}/${dia} ${hora-3}:${minuto}:${segundo}`
+      setTimeAgo(moment(postDataCerta).fromNow())
+    }
+    postTime()
+  })
 
   return (
     <section className={styles.postContainer}>
@@ -34,7 +47,7 @@ export default function Post({ uuid, content, likes, createdAt, comments, user }
             <button>⛲ {comments.length}</button>
           </div>
           <div>
-            {createdAt}
+            {timeAgo}
           </div>
         </div>
       </div>
