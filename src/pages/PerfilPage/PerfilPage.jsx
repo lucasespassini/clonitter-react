@@ -13,19 +13,23 @@ export default function Perfil() {
     name: 'firstname',
     posts: []
   })
+  const [followers, setFollowers] = useState(0)
+  const [followings, setFollowings] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
     async function getUser() {
       const req = {
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXVpZCI6IjBlY2FkY2ZiLTc0MzctNDYyNy05YmI5LTVlZTM5NjAwYTI5NiIsInByb2ZpbGVfaW1hZ2UiOiIwOTJkYjdkOS03MzQ1LTRiNDItYjJhZS04ZjJjMGQwYWEwMDUtZm90by5qcGciLCJ1c2VyX25hbWUiOiJtZW5kZXMiLCJuYW1lIjoiTHVjYXMgTWVuZGVzIiwiZW1haWwiOiJsdWNhc0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYSQxMCRkNU0vOW9UUm1JVVh5N0c1TXlva2plcjBSUTIub29FaUtQMmlEYXhhNjY5QVg0bmNyZXlUbSIsImlhdCI6MTY2MjA0ODEyOSwiZXhwIjoxNjYyMjIwOTI5fQ.CBz4KFfMd_8QzcigEle81Tij5yxov-5aWuI6uWtE1TI`,
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXVpZCI6IjA4MWY0NmY1LThkYTAtNDE4MC1hMzI3LWQ2ZmNmYjNlOTdjYSIsInByb2ZpbGVfaW1hZ2UiOiIzNzNmMWFjOS1hNzc5LTRkMDktYThmNC1mMzIyZDFlNTc4ZDQtZnQuanBnIiwidXNlcl9uYW1lIjoibWVuZGVzIiwibmFtZSI6Ikx1Y2FzIE1lbmRlcyBFc3Bhc3NpbmkiLCJlbWFpbCI6Imx1Y2FzQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJEVNZVFBRGtaZEJNWnNqN2tPSTU1cy5hdkZBeGdqWnVFN3R1T2VxYzlLQmQwZ01IaHQySWcyIiwiaWF0IjoxNjYyMDg2NTUzLCJleHAiOjE2NjIyNTkzNTN9.O7IWQDAUN59sMAPooaklutnHru2IRUg7dXY9nY2a5LY`,
         },
       };
 
       try {
         const res = await axios.get(`http://localhost:3000/user/user_name/${user_name}`, req)
-        setUser(res.data)
+        setFollowers(res.data.followers)
+        setFollowings(res.data.followings)
+        setUser(res.data.user)
         setIsLoaded(true)
       } catch (error) {
         console.log(error)
@@ -96,14 +100,14 @@ export default function Perfil() {
           isLoaded={isLoaded}
           fadeDuration={2}
         >
-          <p><strong>0</strong> seguidores</p>
+          <p><strong>{followings}</strong> seguindo</p>
         </Skeleton>
 
         <Skeleton
           isLoaded={isLoaded}
           fadeDuration={2}
         >
-          <p><strong>0</strong> seguindo</p>
+          <p><strong>{followers}</strong> seguidores</p>
         </Skeleton>
 
         <Skeleton
