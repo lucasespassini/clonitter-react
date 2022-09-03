@@ -34,11 +34,11 @@ export default function PerfilPage() {
 
   return (
     <Container maxW="650">
-      <Skeleton isLoaded={isLoaded} fadeDuration={1} borderRadius={10}>
+      <Skeleton isLoaded={isLoaded} fadeDuration={1} borderRadius={5}>
         <Avatar
           width={'full'}
           height={250}
-          borderRadius={10}
+          borderRadius={5}
           src="https://via.placeholder.com/500x250"
           alt={'bg-image-' + user.user_name}
         />
@@ -50,15 +50,12 @@ export default function PerfilPage() {
             w={32}
             h={32}
             borderRadius={999}
-            src={
-              'http://localhost:3000/uploads/profile_image/' +
-              user.profile_image
-            }
+            src={`${process.env.REACT_APP_BASE_URL}/uploads/profile_image/${user.profile_image}`}
             name={user.user_name + '-icon'}
           />
         </Skeleton>
-        <Skeleton isLoaded={isLoaded} fadeDuration={1} borderRadius={8}>
-          <Button _hover={false} backgroundColor={'#3178c6'}>
+        <Skeleton isLoaded={isLoaded} fadeDuration={1} borderRadius={5}>
+          <Button colorScheme="messenger" borderRadius={5}>
             Seguir
           </Button>
         </Skeleton>

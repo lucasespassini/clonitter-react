@@ -10,6 +10,13 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
 
+  const [errors, setErrors] = useState({
+    emailError: '',
+    passwordError: '',
+  })
+  const [errouEmail, setErrouEmail] = useState(false)
+  const [errouSenha, setErrouSenha] = useState(false)
+
   useEffect(() => {
     const recoveredUser = localStorage.getItem('user')
 
@@ -21,19 +28,24 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   async function login(email, password) {
-    const { status, data } = await api.post('/auth/login', {
-      email,
-      password,
-    })
+    try {
+      const { data } = await api.post('auth/login', {
+        email,
+        password,
+      })
 
-    if (status === 406 || status === 500) {
-      console.log('deu ruim')
-    } else {
       setUser(data.payload)
       localStorage.setItem('user', JSON.stringify(data.payload))
       localStorage.setItem('token', data.token)
       api.defaults.headers.Authorization = `Bearer ${data.token}`
       navigate('/')
+    } catch (error) {
+      const erros = error.response.data.errors
+      if (!erros.emailError) setErrouEmail(false)
+      if (!erros.passwordError) setErrouSenha(false)
+      if (erros.emailError) setErrouEmail(true)
+      if (erros.passwordError) setErrouSenha(true)
+      setErrors(error.response.data.errors)
     }
   }
 
@@ -48,7 +60,16 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ authenticated: !!user, user, isLoading, login, logout }}
+      value={{
+        authenticated: !!user,
+        user,
+        isLoading,
+        login,
+        logout,
+        errouEmail,
+        errouSenha,
+        errors,
+      }}
     >
       {children}
     </AuthContext.Provider>
