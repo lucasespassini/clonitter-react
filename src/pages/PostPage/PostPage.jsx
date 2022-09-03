@@ -1,9 +1,9 @@
-import { Container, Skeleton } from "@chakra-ui/react";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import PostLoader from "../../components/Loading/PostLoader";
-import Post from "../../components/Post/Post";
+import { Container, Skeleton } from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import PostLoader from '../../components/Loading/PostLoader'
+import Post from '../../components/Post/Post'
+import { api } from '../../services/api'
 
 export default function PostPage() {
   const { uuid } = useParams()
@@ -20,14 +20,8 @@ export default function PostPage() {
 
   useEffect(() => {
     async function getPost() {
-      const req = {
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXVpZCI6IjBlY2FkY2ZiLTc0MzctNDYyNy05YmI5LTVlZTM5NjAwYTI5NiIsInByb2ZpbGVfaW1hZ2UiOiIwOTJkYjdkOS03MzQ1LTRiNDItYjJhZS04ZjJjMGQwYWEwMDUtZm90by5qcGciLCJ1c2VyX25hbWUiOiJtZW5kZXMiLCJuYW1lIjoiTHVjYXMgTWVuZGVzIiwiZW1haWwiOiJsdWNhc0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYSQxMCRkNU0vOW9UUm1JVVh5N0c1TXlva2plcjBSUTIub29FaUtQMmlEYXhhNjY5QVg0bmNyZXlUbSIsImlhdCI6MTY2MjA0ODEyOSwiZXhwIjoxNjYyMjIwOTI5fQ.CBz4KFfMd_8QzcigEle81Tij5yxov-5aWuI6uWtE1TI`,
-        },
-      };
-
       try {
-        const res = await axios.get(`http://localhost:3000/post/uuid/${uuid}`, req)
+        const res = await api.get(`/post/uuid/${uuid}`)
         setPost(res.data)
         setIsLoaded(true)
       } catch (error) {
@@ -40,11 +34,7 @@ export default function PostPage() {
   return (
     <Container marginX={'auto'}>
       {
-        <Skeleton
-          isLoaded={isLoaded}
-          fadeDuration={1}
-          borderRadius={10}
-        >
+        <Skeleton isLoaded={isLoaded} fadeDuration={1} borderRadius={10}>
           <Post
             uuid={post.uuid}
             content={post.content}
@@ -55,20 +45,21 @@ export default function PostPage() {
           />
         </Skeleton>
       }
-      {
-        isLoaded ?
-          post.comments.map((comment) =>
-            <Post
-              key={comment.id}
-              uuid={''}
-              content={comment.content}
-              likes={comment.likes}
-              createdAt={comment.createdAt}
-              comments={[]}
-              user={comment.user}
-            />
-          ) : <PostLoader />
-      }
+      {isLoaded ? (
+        post.comments.map(comment => (
+          <Post
+            key={comment.id}
+            uuid={''}
+            content={comment.content}
+            likes={comment.likes}
+            createdAt={comment.createdAt}
+            comments={[]}
+            user={comment.user}
+          />
+        ))
+      ) : (
+        <PostLoader />
+      )}
     </Container>
   )
 }

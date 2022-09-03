@@ -1,23 +1,20 @@
-import { useEffect, useState } from "react";
-import { Container } from "@chakra-ui/react";
-import Post from "../../components/Post/Post";
-import axios from 'axios'
-import PostLoader from "../../components/Loading/PostLoader";
+import { useEffect, useState, useContext } from 'react'
+import { Container } from '@chakra-ui/react'
+import Post from '../../components/Post/Post'
+import PostLoader from '../../components/Loading/PostLoader'
+
+import { api } from '../../services/api'
+import { AuthContext } from '../../contexts/auth'
 
 export default function HomePage() {
+  const { logout, user } = useContext(AuthContext)
   const [isLoaded, setIsLoaded] = useState(false)
   const [posts, setPosts] = useState([])
 
   useEffect(() => {
     async function getPosts() {
-      const req = {
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXVpZCI6IjA4MWY0NmY1LThkYTAtNDE4MC1hMzI3LWQ2ZmNmYjNlOTdjYSIsInByb2ZpbGVfaW1hZ2UiOiIzNzNmMWFjOS1hNzc5LTRkMDktYThmNC1mMzIyZDFlNTc4ZDQtZnQuanBnIiwidXNlcl9uYW1lIjoibWVuZGVzIiwibmFtZSI6Ikx1Y2FzIE1lbmRlcyBFc3Bhc3NpbmkiLCJlbWFpbCI6Imx1Y2FzQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJEVNZVFBRGtaZEJNWnNqN2tPSTU1cy5hdkZBeGdqWnVFN3R1T2VxYzlLQmQwZ01IaHQySWcyIiwiaWF0IjoxNjYyMDg2NTUzLCJleHAiOjE2NjIyNTkzNTN9.O7IWQDAUN59sMAPooaklutnHru2IRUg7dXY9nY2a5LY`,
-        },
-      };
       try {
-        const res = await axios
-          .get('http://localhost:3000/post/user/5/following', req)
+        const res = await api.get(`/post/user/${user.sub}/following`)
         setPosts(res.data)
         setIsLoaded(true)
       } catch (error) {
@@ -25,12 +22,13 @@ export default function HomePage() {
       }
     }
     getPosts()
-  }, [])
+  }, [user])
 
   return (
-    <Container maxW='650'>
-      {isLoaded ?
-        posts.map(post =>
+    <Container maxW="650">
+      <button onClick={logout}>Sair</button>
+      {isLoaded ? (
+        posts.map(post => (
           <Post
             key={post.id}
             uuid={post.uuid}
@@ -40,8 +38,10 @@ export default function HomePage() {
             comments={post.comments}
             user={post.user}
           />
-        ) : <PostLoader />
-      }
+        ))
+      ) : (
+        <PostLoader />
+      )}
     </Container>
-  );
+  )
 }
