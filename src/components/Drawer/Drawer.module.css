@@ -1,0 +1,40 @@
+.icon {
+  width: 25px;
+  height: 25px;
+  padding: 10px;
+  font-size: 1.5rem;
+  border-radius: 50%;
+  transition: .2s;
+  cursor: pointer;
+}
+
+.icon:hover {
+  background-color: #0077ff1c;
+}
+
+.icon path {
+  /* fill: #0078FF; */
+}
+
+.drawer {
+  background-color: #000;
+}
+
+.menuItem {
+  padding: 10px 0;
+  font-size: 1.2rem;
+}
+
+.menuItemIcon {
+  margin-right: 10px;
+}
+
+.logoutIcon {
+  width: 25px;
+  height: 25px;
+  padding: 10px;
+  font-size: 1.5rem;
+  border-radius: 50%;
+  transition: .2s;
+  cursor: pointer;
+}

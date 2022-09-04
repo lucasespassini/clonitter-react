@@ -40,12 +40,13 @@ export default function Post({
 
   return (
     <section className={styles.postContainer}>
-      <Link to={`/${user.user_name}`}>
+      <Link to={user ? `/${user.user_name}` : '/'}>
         <Avatar
           size="lg"
-          name={user.user_name + '-icon'}
+          name={user && `${user.user_name}-icon`}
           src={
-            'http://localhost:3000/uploads/profile_image/' + user.profile_image
+            user &&
+            `${process.env.REACT_APP_BASE_URL}/uploads/profile_image/${user.profile_image}`
           }
         />
       </Link>
@@ -59,12 +60,15 @@ export default function Post({
         </Link>
         <div className={styles.postInfo}>
           <div className={styles.likesComments}>
-            <div className={styles.containerIcon}>
-              <FontAwesomeIcon className={styles.icon} icon={faHeart} />
+            <div className={styles.containerIconLike}>
+              <FontAwesomeIcon className={styles.likeIcon} icon={faHeart} />
               {likes}
             </div>
-            <div className={styles.containerIcon}>
-              <FontAwesomeIcon className={styles.icon} icon={faComment} />
+            <div className={styles.containerIconComment}>
+              <FontAwesomeIcon
+                className={styles.commentIcon}
+                icon={faComment}
+              />
               {comments.length}
             </div>
           </div>

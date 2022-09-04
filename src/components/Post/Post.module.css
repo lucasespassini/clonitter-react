@@ -37,7 +37,8 @@
   cursor: pointer;
 }
 
-.containerIcon {
+.containerIconLike,
+.containerIconComment {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -45,13 +46,31 @@
   transition: .3s;
 }
 
-.icon {
+.likeIcon,
+.commentIcon {
   margin-right: 8px;
   padding: 5px;
   border-radius: 50%;
   transition: .2s;
 }
 
-.containerIcon:hover .icon {
-  background-color: #7a828e6b;
+.likeIcon path,
+.commentIcon path {
+  transition: .2s;
+}
+
+.containerIconLike:hover .likeIcon path {
+  fill: #DE1672;
+}
+
+.containerIconLike:hover {
+  color: #DE1672;
+}
+
+.containerIconComment:hover .commentIcon path {
+  fill: #1D9BF0;
+}
+
+.containerIconComment:hover {
+  color: #1D9BF0;
 }

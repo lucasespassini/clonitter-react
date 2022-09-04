@@ -1,0 +1,26 @@
+.bottomContainer {
+  padding: 5px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  border-top: 1px solid #7A828E;
+  background-color: #0A0C10;
+}
+
+.icon {
+  padding: 10px;
+  font-size: 1.4rem;
+}
+
+.iconActive {
+  padding: 10px;
+  font-size: 1.4rem;
+}
+
+.iconActive path {
+  fill: #0078FF
+}
