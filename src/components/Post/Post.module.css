@@ -36,3 +36,22 @@
 .likesComments p {
   cursor: pointer;
 }
+
+.containerIcon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.icon {
+  margin-right: 8px;
+  padding: 5px;
+  border-radius: 50%;
+  transition: .2s;
+}
+
+.containerIcon:hover .icon {
+  background-color: #7a828e6b;
+}

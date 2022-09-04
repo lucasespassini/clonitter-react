@@ -1,14 +1,49 @@
+import { Container } from '@chakra-ui/react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faHouseChimney,
+  faMagnifyingGlass,
+  faBell,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons'
+import { useContext } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { AuthContext } from '../../contexts/auth'
 import styles from './Navbar.module.css'
-import { Link, Outlet } from 'react-router-dom'
 
 export default function Navbar() {
+  const { logout, user } = useContext(AuthContext)
+  const { pathname } = useLocation()
+
   return (
-    <header className={styles.header}>
-      <nav>
-        <Link to='/'>Home</Link>
-        <Link to={'/perfil/mendes'}>Perfil</Link>
-        <Outlet />
-      </nav>
-    </header>
+    <Container maxW='650' className={styles.container}>
+      <Link to={'/'}>
+        <FontAwesomeIcon
+          className={pathname === '/' ? styles.iconActive : styles.icon}
+          icon={faHouseChimney}
+        />
+      </Link>
+
+      <Link to={'/'}>
+        <FontAwesomeIcon
+          className={pathname === '/explore' ? styles.iconActive : styles.icon}
+          icon={faMagnifyingGlass}
+        />
+      </Link>
+
+      <Link to={'/'}>
+        <FontAwesomeIcon
+          className={pathname === '/notifications' ? styles.iconActive : styles.icon}
+          icon={faBell}
+        />
+      </Link>
+
+      <Link to={user ? `/${user.user_name}` : ''}>
+        <FontAwesomeIcon
+          className={user && pathname === `/${user.user_name}` ? styles.iconActive : styles.icon}
+          icon={faUser}
+        />
+      </Link>
+    </Container>
   )
 }

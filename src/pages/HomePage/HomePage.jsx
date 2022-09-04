@@ -5,13 +5,11 @@ import PostLoader from '../../components/Loading/PostLoader'
 
 import { api } from '../../services/api'
 import { AuthContext } from '../../contexts/auth'
-import { useNavigate } from 'react-router-dom'
 
 export default function HomePage() {
-  const { logout, user } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
   const [isLoaded, setIsLoaded] = useState(false)
   const [posts, setPosts] = useState([])
-  const navigate = useNavigate()
 
   useEffect(() => {
     async function getPosts() {
@@ -21,18 +19,14 @@ export default function HomePage() {
         setPosts(data)
         setIsLoaded(true)
       } catch (error) {
-        // console.log(error)
-        if (error.response.status === 401) {
-          navigate('/login')
-        }
+        console.log(error)
       }
     }
     getPosts()
-  }, [navigate, user])
+  }, [user])
 
   return (
     <Container maxW="650">
-      <button onClick={logout}>Sair</button>
       {isLoaded ? (
         posts.map(post => (
           <Post

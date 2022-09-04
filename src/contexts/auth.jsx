@@ -19,8 +19,10 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const recoveredUser = localStorage.getItem('user')
+    const recoveredToken = localStorage.getItem('token')
 
     if (recoveredUser) {
+      api.defaults.headers.Authorization = `Bearer ${recoveredToken}`
       setUser(JSON.parse(recoveredUser))
     }
 
@@ -50,7 +52,6 @@ export const AuthProvider = ({ children }) => {
   }
 
   function logout() {
-    console.log('logout')
     setUser(null)
     localStorage.removeItem('user')
     localStorage.removeItem('token')

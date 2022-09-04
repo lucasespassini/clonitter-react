@@ -6,6 +6,8 @@ import PostPage from './pages/PostPage/PostPage'
 
 import { AuthProvider, AuthContext } from './contexts/auth'
 import { useContext } from 'react'
+import CadastroPage from './pages/CadastroPage/CadastroPage'
+import Navbar from './components/Navbar/Navbar'
 
 export default function AppRoutes() {
   function Private({ children }) {
@@ -20,8 +22,10 @@ export default function AppRoutes() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <Navbar />
         <Routes>
           <Route path="login" element={<LoginPage />} />
+          <Route path="cadastro" element={<CadastroPage />} />
           <Route
             path="/"
             element={
@@ -30,8 +34,9 @@ export default function AppRoutes() {
               </Private>
             }
           />
+
           <Route
-            path="perfil/:user_name"
+            path="/:user_name"
             element={
               <Private>
                 <PerfilPage />
