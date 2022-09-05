@@ -33,7 +33,6 @@ export default function Post({
         hora - 3
       }:${minuto}:${segundo}`
       setTimeAgo(moment(postDataCerta).fromNow())
-      setTimeAgo(createdAt)
     }
     postTime()
   }, [createdAt])
