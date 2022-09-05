@@ -29,9 +29,7 @@ export default function Post({
       const dia = data.split('/')[0]
       const mes = data.split('/')[1]
       const ano = data.split('/')[2]
-      const postDataCerta = `${ano}/${mes}/${dia} ${
-        hora - 3
-      }:${minuto}:${segundo}`
+      const postDataCerta = `${ano}/${mes}/${dia} ${hora}:${minuto}:${segundo}`
       setTimeAgo(moment(postDataCerta).fromNow())
     }
     postTime()
