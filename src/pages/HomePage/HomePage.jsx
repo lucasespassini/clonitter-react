@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react'
-import { Button, Container } from '@chakra-ui/react'
+import { Button, Container, Textarea } from '@chakra-ui/react'
 import Post from '../../components/Post/Post'
 import PostLoader from '../../components/Loading/PostLoader'
 
@@ -31,13 +31,18 @@ export default function HomePage() {
 
   async function postar() {
     try {
-      await api.post(`/post`, {
-        content: contentPost,
-        user: user.sub,
-      })
+      if (contentPost.length < 1) {
+        alert('Digite alguma coisa para twittar')
+      } else {
+        await api.post(`/post`, {
+          content: contentPost,
+          user: user.sub,
+        })
 
-      const res = await api.get(`/post/user/${user.sub}/following`)
-      setPosts(res.data)
+        const res = await api.get(`/post/user/${user.sub}/following`)
+        setPosts(res.data)
+        setContentPost('')
+      }
     } catch (error) {
       console.log(error)
     }
@@ -48,20 +53,38 @@ export default function HomePage() {
       <Navbar />
       <BottomNavbar />
       <Container maxW="650">
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <textarea
-            style={{ width: '100%' }}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            borderBottom: '1px solid #7A828E',
+          }}
+        >
+          <Textarea
+            marginTop={'5'}
+            height={120}
+            placeholder="O que você está pensando?"
+            resize={'none'}
+            value={contentPost}
             onChange={e => setContentPost(e.target.value)}
-            placeholder="Fala a boa?"
           />
-          <Button
-            colorScheme="messenger"
-            borderRadius={5}
-            onClick={postar}
-            type="submit"
+          <div
+            style={{
+              margin: '15px 20px',
+              display: 'flex',
+              justifyContent: 'flex-end',
+            }}
           >
-            Postar
-          </Button>
+            <Button
+              colorScheme="messenger"
+              padding="5px 25px"
+              borderRadius={999}
+              onClick={postar}
+              type="submit"
+            >
+              Twittar
+            </Button>
+          </div>
         </div>
         {isLoaded ? (
           posts.map(post => (

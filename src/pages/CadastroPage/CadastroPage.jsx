@@ -24,13 +24,22 @@ export default function CadastroPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [errouConfirmSenha, setErrouConfirmSenha] = useState(false)
 
-  const [show, setShow] = useState(false)
-  const handleClick = () => setShow(!show)
+  const [showPass, setShowPass] = useState(false)
+  const [showConfirmPass, setShowConfirmPass] = useState(false)
+  const pass = () => setShowPass(!showPass)
+  const confirmPass = () => setShowConfirmPass(!showConfirmPass)
 
   function handleSubmit(e) {
     e.preventDefault()
-    signup(profile_image, user_name, name, email, password)
+    if (password !== confirmPassword) {
+      setErrouConfirmSenha(true)
+      errors.confirmPassError = 'As duas senhas não são iguais!'
+    } else {
+      signup(profile_image, user_name, name, email, password)
+    }
   }
 
   return (
@@ -109,14 +118,14 @@ export default function CadastroPage() {
           <FormErrorMessage>{errors.emailError}</FormErrorMessage>
         </FormControl>
 
-        <FormControl isInvalid={errouSenha || errouEmail}>
+        <FormControl isInvalid={errouSenha}>
           <FormLabel marginTop={5} paddingX="1" fontSize="1.2rem">
             Senha
           </FormLabel>
           <InputGroup>
             <Input
               paddingX="1"
-              type={show ? 'text' : 'password'}
+              type={showPass ? 'text' : 'password'}
               variant="flushed"
               placeholder="Digite sua senha"
               focusBorderColor="#0063D1"
@@ -126,39 +135,41 @@ export default function CadastroPage() {
             <InputRightElement>
               <IconButton
                 variant="link"
-                aria-label={show ? 'Esconder senha' : 'Mostrar senha'}
-                onClick={handleClick}
-                icon={show ? <ViewIcon /> : <ViewOffIcon />}
+                aria-label={showPass ? 'Esconder senha' : 'Mostrar senha'}
+                onClick={pass}
+                icon={showPass ? <ViewIcon /> : <ViewOffIcon />}
               />
             </InputRightElement>
           </InputGroup>
           <FormErrorMessage>{errors.passwordError}</FormErrorMessage>
         </FormControl>
 
-        <FormControl isInvalid={errouSenha || errouEmail}>
+        <FormControl isInvalid={errouConfirmSenha || errouSenha}>
           <FormLabel marginTop={5} paddingX="1" fontSize="1.2rem">
             Confirme sua senha
           </FormLabel>
           <InputGroup>
             <Input
               paddingX="1"
-              type={show ? 'text' : 'password'}
+              type={showConfirmPass ? 'text' : 'password'}
               variant="flushed"
               placeholder="Digite novamente sua senha"
               focusBorderColor="#0063D1"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
+              value={confirmPassword}
+              onChange={e => setConfirmPassword(e.target.value)}
             />
             <InputRightElement>
               <IconButton
                 variant="link"
-                aria-label={show ? 'Esconder senha' : 'Mostrar senha'}
-                onClick={handleClick}
-                icon={show ? <ViewIcon /> : <ViewOffIcon />}
+                aria-label={
+                  showConfirmPass ? 'Esconder senha' : 'Mostrar senha'
+                }
+                onClick={confirmPass}
+                icon={showConfirmPass ? <ViewIcon /> : <ViewOffIcon />}
               />
             </InputRightElement>
           </InputGroup>
-          <FormErrorMessage>{errors.passwordError}</FormErrorMessage>
+          <FormErrorMessage>{errors.confirmPassError || errors.passwordError}</FormErrorMessage>
         </FormControl>
 
         <Button
