@@ -10,13 +10,14 @@ import BottomNavbar from '../../components/Navbar/BottomNavbar'
 
 export default function HomePage() {
   const { user } = useContext(AuthContext)
-  const [contentPost, setContentPost] = useContext('')
-  const [isLoaded, setIsLoaded] = useState(false)
   const [posts, setPosts] = useState([])
+  const [contentPost, setContentPost] = useState('')
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
     async function getPosts() {
       try {
+        setIsLoaded(false)
         const { data } = await api.get(`/post/user/${user.sub}/following`)
 
         setPosts(data)
@@ -28,37 +29,40 @@ export default function HomePage() {
     getPosts()
   }, [user])
 
-  useEffect(() => {
-    async function postar() {
-      try {
-        await api.post(`/post`, {
-          content: contentPost,
-          user: user.sub,
-        })
+  async function postar() {
+    try {
+      await api.post(`/post`, {
+        content: contentPost,
+        user: user.sub,
+      })
 
-        const res = await api.get(`/post/user/${user.sub}/following`)
-        setPosts(res.data)
-      } catch (error) {
-        console.log(error)
-      }
+      const res = await api.get(`/post/user/${user.sub}/following`)
+      setPosts(res.data)
+    } catch (error) {
+      console.log(error)
     }
-    postar()
-  })
+  }
 
   return (
     <>
       <Navbar />
       <BottomNavbar />
-      <div>
-        <textarea
-          onChange={e => setContentPost(e.target.value)}
-          placeholder="Fala a boa?"
-          cols="30"
-          rows="10"
-        />
-        <Button type="submit">Postar</Button>
-      </div>
       <Container maxW="650">
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <textarea
+            style={{ width: '100%' }}
+            onChange={e => setContentPost(e.target.value)}
+            placeholder="Fala a boa?"
+          />
+          <Button
+            colorScheme="messenger"
+            borderRadius={5}
+            onClick={postar}
+            type="submit"
+          >
+            Postar
+          </Button>
+        </div>
         {isLoaded ? (
           posts.map(post => (
             <Post
