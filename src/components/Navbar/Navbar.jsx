@@ -1,13 +1,9 @@
 import { Container } from '@chakra-ui/react'
-import { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { AuthContext } from '../../contexts/auth'
 import styles from './Navbar.module.css'
 import Drawer from '../Drawer/Drawer'
 
 export default function Navbar() {
-  const { logout, user } = useContext(AuthContext)
-
   return (
     <Container
       maxW="650"
