@@ -5,6 +5,8 @@ import PostLoader from '../../components/Loading/PostLoader'
 
 import { api } from '../../services/api'
 import { AuthContext } from '../../contexts/auth'
+import Navbar from '../../components/Navbar/Navbar'
+import BottomNavbar from '../../components/Navbar/BottomNavbar'
 
 export default function HomePage() {
   const { user } = useContext(AuthContext)
@@ -26,22 +28,26 @@ export default function HomePage() {
   }, [user])
 
   return (
-    <Container maxW="650">
-      {isLoaded ? (
-        posts.map(post => (
-          <Post
-            key={post.id}
-            uuid={post.uuid}
-            content={post.content}
-            likes={post.likes}
-            createdAt={post.createdAt}
-            comments={post.comments}
-            user={post.user}
-          />
-        ))
-      ) : (
-        <PostLoader />
-      )}
-    </Container>
+    <>
+      <Navbar />
+      <BottomNavbar />
+      <Container maxW="650">
+        {isLoaded ? (
+          posts.map(post => (
+            <Post
+              key={post.id}
+              uuid={post.uuid}
+              content={post.content}
+              likes={post.likes}
+              createdAt={post.createdAt}
+              comments={post.comments}
+              user={post.user}
+            />
+          ))
+        ) : (
+          <PostLoader />
+        )}
+      </Container>
+    </>
   )
 }
