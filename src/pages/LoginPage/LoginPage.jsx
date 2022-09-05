@@ -13,9 +13,10 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { useState, useContext } from 'react'
 import { AuthContext } from '../../contexts/auth'
 import styles from './LoginPage.module.css'
+import { Link } from 'react-router-dom'
 
 export default function LoginPage() {
-  const { login, errors, errouEmail, errouSenha } = useContext(AuthContext)
+  const { signin, errors, errouEmail, errouSenha } = useContext(AuthContext)
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -24,7 +25,7 @@ export default function LoginPage() {
 
   function handleSubmit(e) {
     e.preventDefault()
-    login(email, password)
+    signin(email, password)
   }
 
   return (
@@ -92,6 +93,7 @@ export default function LoginPage() {
           </Button>
         </FormControl>
       </form>
+      <Link to={'/cadastro'}>Não tem uma conta?</Link>
     </Container>
   )
 }

@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { useEffect } from 'react'
 import { createContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -11,9 +12,13 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true)
 
   const [errors, setErrors] = useState({
+    user_nameError: '',
+    nameError: '',
     emailError: '',
     passwordError: '',
   })
+  const [errouUser_name, setErrouUser_name] = useState(false)
+  const [errouName, setErrouName] = useState(false)
   const [errouEmail, setErrouEmail] = useState(false)
   const [errouSenha, setErrouSenha] = useState(false)
 
@@ -29,7 +34,7 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(false)
   }, [])
 
-  async function login(email, password) {
+  async function signin(email, password) {
     try {
       const { data } = await api.post('auth/login', {
         email,
@@ -42,12 +47,50 @@ export const AuthProvider = ({ children }) => {
       api.defaults.headers.Authorization = `Bearer ${data.token}`
       navigate('/')
     } catch (error) {
-      const erros = error.response.data.errors
-      if (!erros.emailError) setErrouEmail(false)
-      if (!erros.passwordError) setErrouSenha(false)
-      if (erros.emailError) setErrouEmail(true)
-      if (erros.passwordError) setErrouSenha(true)
-      setErrors(error.response.data.errors)
+      const errors = error.response.data.errors
+      if (!errors.emailError) setErrouEmail(false)
+      if (!errors.passwordError) setErrouSenha(false)
+
+      if (errors.emailError) setErrouEmail(true)
+      if (errors.passwordError) setErrouSenha(true)
+      setErrors(errors)
+    }
+  }
+
+  async function signup(profile_image, user_name, name, email, password) {
+    try {
+      console.log()
+      const { data } = await axios({
+        method: 'post',
+        url: process.env.REACT_APP_BASE_URL + '/auth/signup',
+        data: {
+          profile_image,
+          user_name,
+          name,
+          email,
+          password,
+        },
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+
+      setUser(data.payload)
+      localStorage.setItem('user', JSON.stringify(data.payload))
+      localStorage.setItem('token', data.token)
+      api.defaults.headers.Authorization = `Bearer ${data.token}`
+      navigate('/')
+    } catch (error) {
+      console.log(error)
+      const errors = error.response.data.errors
+      if (!errors.user_nameError) setErrouUser_name(false)
+      if (!errors.nameError) setErrouName(false)
+      if (!errors.emailError) setErrouEmail(false)
+      if (!errors.passwordError) setErrouSenha(false)
+
+      if (errors.user_nameError) setErrouUser_name(true)
+      if (errors.nameError) setErrouName(true)
+      if (errors.emailError) setErrouEmail(true)
+      if (errors.passwordError) setErrouSenha(true)
+      setErrors(errors)
     }
   }
 
@@ -65,8 +108,11 @@ export const AuthProvider = ({ children }) => {
         authenticated: !!user,
         user,
         isLoading,
-        login,
+        signin,
+        signup,
         logout,
+        errouUser_name,
+        errouName,
         errouEmail,
         errouSenha,
         errors,

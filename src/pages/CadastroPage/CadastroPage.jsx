@@ -13,18 +13,24 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { useState, useContext } from 'react'
 import { AuthContext } from '../../contexts/auth'
 import styles from './CadastroPage.module.css'
+import { Link } from 'react-router-dom'
 
 export default function CadastroPage() {
-  const { login, errors, errouEmail, errouSenha } = useContext(AuthContext)
+  const { errors, errouUser_name, errouName, errouEmail, errouSenha, signup } =
+    useContext(AuthContext)
 
+  const [profile_image, setProfile_image] = useState('')
+  const [user_name, setUser_name] = useState('')
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
   const [show, setShow] = useState(false)
   const handleClick = () => setShow(!show)
 
   function handleSubmit(e) {
     e.preventDefault()
-    login(email, password)
+    signup(profile_image, user_name, name, email, password)
   }
 
   return (
@@ -35,39 +41,55 @@ export default function CadastroPage() {
       justifyContent="center"
     >
       <h2 className={styles.title}>Cadastro</h2>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <FormControl isInvalid={errouEmail}>
+      <form
+        encType="multipart/form-data"
+        onSubmit={handleSubmit}
+        className={styles.form}
+      >
+        <FormControl>
+          <FormLabel marginTop={5} paddingX="1" fontSize="1.2rem">
+            Foto de perfil (Opcional)
+          </FormLabel>
+          <Input
+            type="file"
+            paddingX="1"
+            variant="flushed"
+            focusBorderColor="#0063D1"
+            onChange={e => setProfile_image(e.target.files[0])}
+          />
+        </FormControl>
+
+        <FormControl isInvalid={errouUser_name}>
           <FormLabel marginTop={5} paddingX="1" fontSize="1.2rem">
             Nome de usuário
           </FormLabel>
           <Input
-            type="email"
+            type="text"
             paddingX="1"
             variant="flushed"
             placeholder="Digite seu nome de usuário"
             focusBorderColor="#0063D1"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
+            value={user_name}
+            onChange={e => setUser_name(e.target.value)}
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
           />
-          <FormErrorMessage>{errors.emailError}</FormErrorMessage>
+          <FormErrorMessage>{errors.user_nameError}</FormErrorMessage>
         </FormControl>
 
-        <FormControl isInvalid={errouEmail}>
+        <FormControl isInvalid={errouName}>
           <FormLabel marginTop={5} paddingX="1" fontSize="1.2rem">
             Nome
           </FormLabel>
           <Input
-            type="email"
+            type="text"
             paddingX="1"
             variant="flushed"
             placeholder="Digite seu nome"
             focusBorderColor="#0063D1"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+            value={name}
+            onChange={e => setName(e.target.value)}
           />
-          <FormErrorMessage>{errors.emailError}</FormErrorMessage>
+          <FormErrorMessage>{errors.nameError}</FormErrorMessage>
         </FormControl>
 
         <FormControl isInvalid={errouEmail}>
@@ -145,10 +167,12 @@ export default function CadastroPage() {
           marginTop={10}
           width="100%"
           borderRadius={0}
+          onClick={handleSubmit}
         >
           Cadastre-se
         </Button>
       </form>
+      <Link to={'/login'}>Já tem uma conta?</Link>
     </Container>
   )
 }
