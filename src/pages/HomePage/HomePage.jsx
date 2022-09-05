@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react'
-import { Container } from '@chakra-ui/react'
+import { Button, Container } from '@chakra-ui/react'
 import Post from '../../components/Post/Post'
 import PostLoader from '../../components/Loading/PostLoader'
 
@@ -10,6 +10,7 @@ import BottomNavbar from '../../components/Navbar/BottomNavbar'
 
 export default function HomePage() {
   const { user } = useContext(AuthContext)
+  const [contentPost, setContentPost] = useContext('')
   const [isLoaded, setIsLoaded] = useState(false)
   const [posts, setPosts] = useState([])
 
@@ -27,10 +28,36 @@ export default function HomePage() {
     getPosts()
   }, [user])
 
+  useEffect(() => {
+    async function postar() {
+      try {
+        await api.post(`/post`, {
+          content: contentPost,
+          user: user.sub,
+        })
+
+        const res = await api.get(`/post/user/${user.sub}/following`)
+        setPosts(res.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    postar()
+  })
+
   return (
     <>
       <Navbar />
       <BottomNavbar />
+      <div>
+        <textarea
+          onChange={e => setContentPost(e.target.value)}
+          placeholder="Fala a boa?"
+          cols="30"
+          rows="10"
+        />
+        <Button type="submit">Postar</Button>
+      </div>
       <Container maxW="650">
         {isLoaded ? (
           posts.map(post => (
