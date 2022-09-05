@@ -58,21 +58,21 @@ export default function PlacementExample() {
               />
               Home
             </Link>
-            <Link className={styles.menuItem} to={'/explore'}>
+            <Link className={styles.menuItem} to={'/'}>
               <FontAwesomeIcon
                 className={styles.menuItemIcon}
                 icon={faMagnifyingGlass}
               />
               Explorar
             </Link>
-            <Link className={styles.menuItem} to={'/messages'}>
+            <Link className={styles.menuItem} to={'/'}>
               <FontAwesomeIcon
                 className={styles.menuItemIcon}
                 icon={faMessage}
               />
               Mensagens
             </Link>
-            <Link className={styles.menuItem} to={'/notifications'}>
+            <Link className={styles.menuItem} to={'/'}>
               <FontAwesomeIcon className={styles.menuItemIcon} icon={faBell} />
               Notificações
             </Link>
@@ -83,7 +83,7 @@ export default function PlacementExample() {
               <FontAwesomeIcon className={styles.menuItemIcon} icon={faUser} />
               Perfil
             </Link>
-            <Link className={styles.menuItem} to={'/settings'}>
+            <Link className={styles.menuItem} to={'/'}>
               <FontAwesomeIcon className={styles.menuItemIcon} icon={faGear} />
               Configurações
             </Link>
