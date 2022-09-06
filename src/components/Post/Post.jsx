@@ -41,7 +41,7 @@ export default function Post({
         <Avatar
           size="lg"
           src={
-            user &&
+            user.profile_image &&
             `${process.env.REACT_APP_BASE_URL}/uploads/profile_image/${user.profile_image}`
           }
         />

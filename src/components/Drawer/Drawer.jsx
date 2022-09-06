@@ -96,9 +96,8 @@ export default function PlacementExample() {
           >
             <Link to={user ? `/${user.user_name}` : '/'}>
               <Avatar
-                name={user && `${user.user_name}-icon`}
                 src={
-                  user &&
+                  user.profile_image &&
                   `${process.env.REACT_APP_BASE_URL}/uploads/profile_image/${user.profile_image}`
                 }
               />

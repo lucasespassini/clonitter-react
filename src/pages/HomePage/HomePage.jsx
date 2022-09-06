@@ -19,7 +19,6 @@ export default function HomePage() {
       try {
         setIsLoaded(false)
         const { data } = await api.get(`/post/user/${user.sub}/following`)
-
         setPosts(data)
         setIsLoaded(true)
       } catch (error) {
@@ -34,13 +33,11 @@ export default function HomePage() {
       if (contentPost.length < 1) {
         alert('Digite alguma coisa para twittar')
       } else {
-        await api.post(`/post`, {
+        const { data } = await api.post(`/post`, {
           content: contentPost,
           user: user.sub,
         })
-
-        const res = await api.get(`/post/user/${user.sub}/following`)
-        setPosts(res.data)
+        setPosts(posts => [...posts, data])
         setContentPost('')
       }
     } catch (error) {
@@ -52,7 +49,7 @@ export default function HomePage() {
     <>
       <Navbar />
       <BottomNavbar />
-      <Container maxW="650" padding='0'>
+      <Container maxW="650" padding="0">
         <div
           style={{
             display: 'flex',

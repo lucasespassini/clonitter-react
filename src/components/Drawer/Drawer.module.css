@@ -9,12 +9,12 @@
 }
 
 .icon:hover {
-  background-color: #0077ff1c;
+  background-color: #ffffff18;
 }
 
-.icon path {
-  /* fill: #0078FF; */
-}
+/* .icon path {
+  fill: #0078FF;
+} */
 
 .drawer {
   background-color: #000;

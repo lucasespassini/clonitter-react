@@ -57,7 +57,7 @@ export default function PerfilPage() {
               border="1px solid #0A0C10"
               borderRadius={999}
               src={
-                user &&
+                user.profile_image &&
                 `${process.env.REACT_APP_BASE_URL}/uploads/profile_image/${user.profile_image}`
               }
             />
