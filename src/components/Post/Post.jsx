@@ -40,7 +40,6 @@ export default function Post({
       <Link to={user ? `/${user.user_name}` : '/'}>
         <Avatar
           size="lg"
-          name={user && `${user.user_name}-icon`}
           src={
             user &&
             `${process.env.REACT_APP_BASE_URL}/uploads/profile_image/${user.profile_image}`
@@ -69,7 +68,9 @@ export default function Post({
               {comments.length}
             </div>
           </div>
-          <Link to={`/post/${uuid}`}>{timeAgo}</Link>
+          <Link style={{ fontSize: '.8rem' }} to={`/post/${uuid}`}>
+            {timeAgo}
+          </Link>
         </div>
       </div>
     </section>

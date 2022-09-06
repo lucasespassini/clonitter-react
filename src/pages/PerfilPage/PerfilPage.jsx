@@ -54,9 +54,12 @@ export default function PerfilPage() {
             <Avatar
               w={32}
               h={32}
+              border="1px solid #0A0C10"
               borderRadius={999}
-              src={`${process.env.REACT_APP_BASE_URL}/uploads/profile_image/${user.profile_image}`}
-              name={user.user_name + '-icon'}
+              src={
+                user &&
+                `${process.env.REACT_APP_BASE_URL}/uploads/profile_image/${user.profile_image}`
+              }
             />
           </Skeleton>
           <Skeleton isLoaded={isLoaded} fadeDuration={1} borderRadius={5}>

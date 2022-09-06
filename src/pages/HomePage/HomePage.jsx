@@ -52,10 +52,11 @@ export default function HomePage() {
     <>
       <Navbar />
       <BottomNavbar />
-      <Container maxW="650">
+      <Container maxW="650" padding='0'>
         <div
           style={{
             display: 'flex',
+            padding: '0 4%',
             flexDirection: 'column',
             borderBottom: '1px solid #7A828E',
           }}

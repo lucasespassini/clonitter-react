@@ -118,7 +118,7 @@ export default function CadastroPage() {
           <FormErrorMessage>{errors.emailError}</FormErrorMessage>
         </FormControl>
 
-        <FormControl isInvalid={errouSenha}>
+        <FormControl isInvalid={errouConfirmSenha || errouSenha}>
           <FormLabel marginTop={5} paddingX="1" fontSize="1.2rem">
             Senha
           </FormLabel>

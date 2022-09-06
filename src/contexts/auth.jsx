@@ -59,7 +59,6 @@ export const AuthProvider = ({ children }) => {
 
   async function signup(profile_image, user_name, name, email, password) {
     try {
-      console.log()
       const { data } = await axios({
         method: 'post',
         url: process.env.REACT_APP_BASE_URL + '/auth/signup',
