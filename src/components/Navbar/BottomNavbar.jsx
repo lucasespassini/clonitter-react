@@ -11,12 +11,19 @@ import { Link, useLocation } from 'react-router-dom'
 import { AuthContext } from '../../contexts/auth'
 import styles from './BottomNavbar.module.css'
 
-export default function BottomNavbar() {
+export default function BottomNavbar({ hidden }) {
   const { user } = useContext(AuthContext)
   const { pathname } = useLocation()
-
+  console.log(hidden)
+  let bottom
+  hidden ? bottom = '-62px' : bottom = '0'
   return (
-    <Container maxW='650' className={styles.bottomContainer}>
+    <Container
+      maxW="650"
+      transition={'.3s'}
+      style={{ bottom: bottom }}
+      className={styles.bottomContainer}
+    >
       <Link to={'/'}>
         <FontAwesomeIcon
           className={pathname === '/' ? styles.iconActive : styles.icon}
@@ -33,14 +40,20 @@ export default function BottomNavbar() {
 
       <Link to={'/'}>
         <FontAwesomeIcon
-          className={pathname === '/notifications' ? styles.iconActive : styles.icon}
+          className={
+            pathname === '/notifications' ? styles.iconActive : styles.icon
+          }
           icon={faBell}
         />
       </Link>
 
       <Link to={user ? `/${user.user_name}` : ''}>
         <FontAwesomeIcon
-          className={user && pathname === `/${user.user_name}` ? styles.iconActive : styles.icon}
+          className={
+            user && pathname === `/${user.user_name}`
+              ? styles.iconActive
+              : styles.icon
+          }
           icon={faUser}
         />
       </Link>

@@ -39,7 +39,7 @@ export default function PerfilPage() {
       <Navbar />
       <BottomNavbar />
       <Container maxW="650">
-        <Skeleton isLoaded={isLoaded} fadeDuration={1} borderRadius={5}>
+        <Skeleton isLoaded={isLoaded} fadeDuration={.3} borderRadius={5}>
           <Avatar
             width={'full'}
             height={250}
@@ -50,7 +50,7 @@ export default function PerfilPage() {
         </Skeleton>
 
         <div className={styles.imageContainer}>
-          <Skeleton isLoaded={isLoaded} fadeDuration={1} borderRadius={999}>
+          <Skeleton isLoaded={isLoaded} fadeDuration={.3} borderRadius={999}>
             <Avatar
               w={32}
               h={32}
@@ -62,7 +62,7 @@ export default function PerfilPage() {
               }
             />
           </Skeleton>
-          <Skeleton isLoaded={isLoaded} fadeDuration={1} borderRadius={5}>
+          <Skeleton isLoaded={isLoaded} fadeDuration={.3} borderRadius={5}>
             <Button colorScheme="messenger" borderRadius={5}>
               Seguir
             </Button>
@@ -70,13 +70,13 @@ export default function PerfilPage() {
         </div>
 
         <div className={styles.infoContainer}>
-          <Skeleton isLoaded={isLoaded} fadeDuration={2}>
+          <Skeleton isLoaded={isLoaded} fadeDuration={.5}>
             <h2>
               <strong>{user.name}</strong>
             </h2>
           </Skeleton>
 
-          <Skeleton isLoaded={isLoaded} fadeDuration={2} marginTop={0.9}>
+          <Skeleton isLoaded={isLoaded} fadeDuration={.5} marginTop={0.9}>
             <h1>
               <small>@{user.user_name}</small>
             </h1>
@@ -84,19 +84,19 @@ export default function PerfilPage() {
         </div>
 
         <div className={styles.profileInfoContainer}>
-          <Skeleton isLoaded={isLoaded} fadeDuration={2}>
+          <Skeleton isLoaded={isLoaded} fadeDuration={.5}>
             <p>
               <strong>{followings}</strong> seguindo
             </p>
           </Skeleton>
 
-          <Skeleton isLoaded={isLoaded} fadeDuration={2}>
+          <Skeleton isLoaded={isLoaded} fadeDuration={.5}>
             <p>
               <strong>{followers}</strong> seguidores
             </p>
           </Skeleton>
 
-          <Skeleton isLoaded={isLoaded} fadeDuration={2}>
+          <Skeleton isLoaded={isLoaded} fadeDuration={.5}>
             <p>
               <strong>{user.posts.length}</strong> tweets
             </p>

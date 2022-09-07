@@ -13,6 +13,10 @@ export default function HomePage() {
   const [posts, setPosts] = useState([])
   const [contentPost, setContentPost] = useState('')
   const [isLoaded, setIsLoaded] = useState(false)
+  const [hiddenMenu, setHiddenMenu] = useState(false)
+
+  const [lastScrollPosition, setLastScrollPosition] = useState(0)
+  const [monitorScroll, setMonitorScroll] = useState(0)
 
   useEffect(() => {
     async function getPosts() {
@@ -37,7 +41,7 @@ export default function HomePage() {
           content: contentPost,
           user: user.sub,
         })
-        setPosts(posts => [...posts, data])
+        setPosts(posts => [data, ...posts])
         setContentPost('')
       }
     } catch (error) {
@@ -45,11 +49,40 @@ export default function HomePage() {
     }
   }
 
+  function rolar() {
+    const html = document.querySelector('html')
+    let scrollPosition = html.scrollTop
+
+    if (scrollPosition === 0) {
+      setHiddenMenu(false)
+    } else if (lastScrollPosition < scrollPosition) {
+      setHiddenMenu(true)
+    } else if (lastScrollPosition === scrollPosition) {
+      if (monitorScroll <= scrollPosition) {
+        setHiddenMenu(true)
+      } else {
+        setHiddenMenu(false)
+      }
+      setMonitorScroll(scrollPosition)
+    } else {
+      setHiddenMenu(false)
+    }
+
+    console.log('Posição Atual: ', scrollPosition)
+    console.log('Ultima Posição', lastScrollPosition)
+    setLastScrollPosition(scrollPosition)
+  }
   return (
     <>
       <Navbar />
-      <BottomNavbar />
-      <Container maxW="650" padding="0">
+      <BottomNavbar hidden={hiddenMenu} />
+      <Container
+        maxW="650"
+        padding="0"
+        onWheel={rolar}
+        onTouchEnd={rolar}
+        onTouchMove={rolar}
+      >
         <div
           style={{
             display: 'flex',
