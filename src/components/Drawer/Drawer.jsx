@@ -21,7 +21,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext } from 'react'
-import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { AuthContext } from '../../contexts/auth'
 import styles from './Drawer.module.css'
@@ -29,7 +28,6 @@ import styles from './Drawer.module.css'
 export default function PlacementExample() {
   const { logout, user } = useContext(AuthContext)
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const firstField = useRef()
 
   return (
     <>
@@ -37,7 +35,6 @@ export default function PlacementExample() {
       <Drawer
         isOpen={isOpen}
         placement="right"
-        initialFocusRef={firstField}
         onClose={onClose}
       >
         <DrawerOverlay />

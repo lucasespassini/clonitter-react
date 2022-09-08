@@ -53,18 +53,27 @@ export default function PerfilPage() {
       }
     }
   }, [followers, user])
-  console.log(taSeguindo)
-  console.log(followers)
-  console.log(user.sub)
 
   async function seguir() {
     try {
-      await api.post('friendship', {
+      const { data } = await api.post('friendship', {
         followingId: userProfile.id,
         user: user.sub,
       })
+      setFollowers(f => [data, ...f])
       setNumberFollowers(f => f + 1)
       setTaSeguindo(true)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function deixarDeSeguir() {
+    try {
+      const f = followers.find(follower => follower.user.id === user.sub)
+      await api.delete(`friendship/${f.id}`)
+      setNumberFollowers(f => f - 1)
+      setTaSeguindo(false)
     } catch (error) {
       console.log(error)
     }
@@ -103,7 +112,11 @@ export default function PerfilPage() {
                 Editar Perfil
               </Button>
             ) : taSeguindo ? (
-              <Button colorScheme="messenger" borderRadius={5}>
+              <Button
+                colorScheme="messenger"
+                borderRadius={5}
+                onClick={deixarDeSeguir}
+              >
                 Deixar de seguir
               </Button>
             ) : (
