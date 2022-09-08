@@ -30,7 +30,7 @@ export default function BottomNavbar({ hidden }) {
         />
       </Link>
 
-      <Link to={'/'}>
+      <Link to={'/explore'}>
         <FontAwesomeIcon
           className={pathname === '/explore' ? styles.iconActive : styles.icon}
           icon={faMagnifyingGlass}

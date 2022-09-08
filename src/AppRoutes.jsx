@@ -7,6 +7,7 @@ import PostPage from './pages/PostPage/PostPage'
 import { AuthProvider, AuthContext } from './contexts/auth'
 import { useContext } from 'react'
 import CadastroPage from './pages/CadastroPage/CadastroPage'
+import ExplorePage from './pages/ExplorePage/ExplorePage'
 
 export default function AppRoutes() {
   function Private({ children }) {
@@ -34,6 +35,15 @@ export default function AppRoutes() {
           />
 
           <Route
+            path="/explore"
+            element={
+              <Private>
+                <ExplorePage />
+              </Private>
+            }
+          />
+
+          <Route
             path="/:user_name"
             element={
               <Private>
@@ -41,6 +51,7 @@ export default function AppRoutes() {
               </Private>
             }
           />
+
           <Route
             path="post/:uuid"
             element={
