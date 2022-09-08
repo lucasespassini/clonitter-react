@@ -14,7 +14,6 @@ import styles from './BottomNavbar.module.css'
 export default function BottomNavbar({ hidden }) {
   const { user } = useContext(AuthContext)
   const { pathname } = useLocation()
-  console.log(hidden)
   let bottom
   hidden ? bottom = '-62px' : bottom = '0'
   return (

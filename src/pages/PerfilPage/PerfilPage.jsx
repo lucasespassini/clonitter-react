@@ -1,31 +1,40 @@
 import { Avatar, Container, Skeleton, Button } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useContext, useEffect, useState } from 'react'
+import { useLocation, useParams } from 'react-router-dom'
 import styles from './PerfilPage.module.css'
 import PostLoader from '../../components/Loading/PostLoader'
 import Post from '../../components/Post/Post'
 import { api } from '../../services/api'
 import Navbar from '../../components/Navbar/Navbar'
 import BottomNavbar from '../../components/Navbar/BottomNavbar'
+import { AuthContext } from '../../contexts/auth'
 
 export default function PerfilPage() {
+  const { user } = useContext(AuthContext)
   const { user_name } = useParams()
-  const [user, setUser] = useState({
+  const { pathname } = useLocation()
+  const [userProfile, setUserProfile] = useState({
     user_name: 'name',
     name: 'firstname',
     posts: [],
   })
-  const [followers, setFollowers] = useState(0)
-  const [followings, setFollowings] = useState(0)
+  const [numberFollowers, setNumberFollowers] = useState(0)
+  const [followers, setFollowers] = useState([])
+  const [numberFollowings, setNumberFollowings] = useState(0)
+  const [followings, setFollowings] = useState([])
   const [isLoaded, setIsLoaded] = useState(false)
+
+  const [taSeguindo, setTaSeguindo] = useState(false)
 
   useEffect(() => {
     async function getUser() {
       try {
-        const res = await api.get(`/user/user_name/${user_name}`)
-        setFollowers(res.data.followers)
-        setFollowings(res.data.followings)
-        setUser(res.data.user)
+        const { data } = await api.get(`/user/user_name/${user_name}`)
+        setNumberFollowers(data.followers[1])
+        setFollowers(data.followers[0])
+        setNumberFollowings(data.followings[1])
+        setFollowings(data.followings[0])
+        setUserProfile(data.user)
         setIsLoaded(true)
       } catch (error) {
         console.log(error)
@@ -34,77 +43,113 @@ export default function PerfilPage() {
     getUser()
   }, [user_name])
 
+  useEffect(() => {
+    for (const follower of followers) {
+      if (follower.user.id === user.sub) {
+        setTaSeguindo(true)
+        return
+      } else {
+        setTaSeguindo(false)
+      }
+    }
+  }, [followers, user])
+  console.log(taSeguindo)
+  console.log(followers)
+  console.log(user.sub)
+
+  async function seguir() {
+    try {
+      await api.post('friendship', {
+        followingId: userProfile.id,
+        user: user.sub,
+      })
+      setNumberFollowers(f => f + 1)
+      setTaSeguindo(true)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <Navbar />
       <BottomNavbar />
       <Container maxW="650">
-        <Skeleton isLoaded={isLoaded} fadeDuration={.3} borderRadius={5}>
+        <Skeleton isLoaded={isLoaded} fadeDuration={0.3} borderRadius={5}>
           <Avatar
             width={'full'}
             height={250}
             borderRadius={5}
             src="https://via.placeholder.com/500x250"
-            alt={'bg-image-' + user.user_name}
           />
         </Skeleton>
 
         <div className={styles.imageContainer}>
-          <Skeleton isLoaded={isLoaded} fadeDuration={.3} borderRadius={999}>
+          <Skeleton isLoaded={isLoaded} fadeDuration={0.3} borderRadius={999}>
             <Avatar
               w={32}
               h={32}
               border="1px solid #0A0C10"
               borderRadius={999}
               src={
-                user.profile_image &&
-                `${process.env.REACT_APP_BASE_URL}/uploads/profile_image/${user.profile_image}`
+                userProfile.profile_image &&
+                `${process.env.REACT_APP_BASE_URL}/uploads/profile_image/${userProfile.profile_image}`
               }
             />
           </Skeleton>
-          <Skeleton isLoaded={isLoaded} fadeDuration={.3} borderRadius={5}>
-            <Button colorScheme="messenger" borderRadius={5}>
-              Seguir
-            </Button>
+          <Skeleton isLoaded={isLoaded} fadeDuration={0.3} borderRadius={5}>
+            {pathname === `/${user.user_name}` ? (
+              <Button colorScheme="messenger" borderRadius={5}>
+                Editar Perfil
+              </Button>
+            ) : taSeguindo ? (
+              <Button colorScheme="messenger" borderRadius={5}>
+                Deixar de seguir
+              </Button>
+            ) : (
+              <Button colorScheme="messenger" borderRadius={5} onClick={seguir}>
+                Seguir
+              </Button>
+            )}
           </Skeleton>
         </div>
 
         <div className={styles.infoContainer}>
-          <Skeleton isLoaded={isLoaded} fadeDuration={.5}>
+          <Skeleton isLoaded={isLoaded} fadeDuration={0.3}>
             <h2>
-              <strong>{user.name}</strong>
+              <strong>{userProfile.name}</strong>
             </h2>
           </Skeleton>
 
-          <Skeleton isLoaded={isLoaded} fadeDuration={.5} marginTop={0.9}>
+          <Skeleton isLoaded={isLoaded} fadeDuration={0.3} marginTop={0.9}>
             <h1>
-              <small>@{user.user_name}</small>
+              <small>@{userProfile.user_name}</small>
             </h1>
           </Skeleton>
         </div>
 
         <div className={styles.profileInfoContainer}>
-          <Skeleton isLoaded={isLoaded} fadeDuration={.5}>
+          <Skeleton isLoaded={isLoaded} fadeDuration={0.3}>
             <p>
-              <strong>{followings}</strong> seguindo
+              <strong>{numberFollowings}</strong> seguindo
             </p>
           </Skeleton>
 
-          <Skeleton isLoaded={isLoaded} fadeDuration={.5}>
+          <Skeleton isLoaded={isLoaded} fadeDuration={0.3}>
             <p>
-              <strong>{followers}</strong> seguidores
+              <strong>{numberFollowers}</strong> seguidores
             </p>
           </Skeleton>
 
-          <Skeleton isLoaded={isLoaded} fadeDuration={.5}>
+          <Skeleton isLoaded={isLoaded} fadeDuration={0.3}>
             <p>
-              <strong>{user.posts.length}</strong> tweets
+              <strong>{userProfile.posts.length}</strong> tweets
             </p>
           </Skeleton>
         </div>
 
         {isLoaded ? (
-          user.posts.map(post => (
+          userProfile.posts.map(post => (
             <Post
               key={post.id}
               uuid={post.uuid}
@@ -112,7 +157,7 @@ export default function PerfilPage() {
               likes={post.likes}
               createdAt={post.createdAt}
               comments={[]}
-              user={user}
+              user={userProfile}
             />
           ))
         ) : (
