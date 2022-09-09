@@ -13,15 +13,7 @@ import { api } from '../../services/api'
 export default function PostPage() {
   const { user } = useContext(AuthContext)
   const { uuid } = useParams()
-  const [post, setPost] = useState({
-    id: 0,
-    uuid: uuid,
-    content: '',
-    likes: 0,
-    createdAt: '',
-    comments: [],
-    user: {},
-  })
+  const [post, setPost] = useState()
   const [isLoaded, setIsLoaded] = useState(false)
   const [contentComment, setContentComment] = useState('')
 
@@ -62,8 +54,8 @@ export default function PostPage() {
       <Navbar />
       <BottomNavbar />
       <Container maxW="650" padding="0">
-        {
-          <Skeleton isLoaded={isLoaded} fadeDuration={0.3} borderRadius={10}>
+        <Skeleton isLoaded={isLoaded} fadeDuration={0.3} borderRadius={10}>
+          {post ? (
             <Post
               uuid={post.uuid}
               content={post.content}
@@ -72,8 +64,17 @@ export default function PostPage() {
               comments={post.comments}
               user={post.user}
             />
-          </Skeleton>
-        }
+          ) : (
+            <Post
+              uuid=""
+              content=""
+              likes=""
+              createdAt=""
+              comments=""
+              user=""
+            />
+          )}
+        </Skeleton>
         {isLoaded ? (
           post.comments.map(comment => (
             <Comment
