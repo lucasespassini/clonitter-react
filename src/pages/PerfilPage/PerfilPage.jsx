@@ -26,6 +26,8 @@ export default function PerfilPage() {
 
   const [taSeguindo, setTaSeguindo] = useState(false)
 
+  const width = window.screen.width
+
   useEffect(() => {
     async function getUser() {
       try {
@@ -83,11 +85,17 @@ export default function PerfilPage() {
     <>
       <Navbar />
       <BottomNavbar />
-      <Container maxW="650">
-        <Skeleton isLoaded={isLoaded} fadeDuration={0.3} borderRadius={5}>
+      <Container maxW="650" padding="0">
+        <Skeleton
+          className={styles.bgContainer}
+          isLoaded={isLoaded}
+          fadeDuration={0.3}
+          borderRadius={5}
+        >
           <Avatar
-            width={'full'}
-            height={250}
+            className={styles.bgImage}
+            width="100%"
+            height={width < 500 ? '200' : '250'}
             borderRadius={5}
             src="https://via.placeholder.com/500x250"
           />
@@ -120,7 +128,12 @@ export default function PerfilPage() {
                 Deixar de seguir
               </Button>
             ) : (
-              <Button colorScheme="messenger" borderRadius={5} onClick={seguir}>
+              <Button
+                colorScheme="messenger"
+                borderRadius={5}
+                onClick={seguir}
+                fontSize={width < 500 ? '0.5rem' : '1rem'}
+              >
                 Seguir
               </Button>
             )}
@@ -169,7 +182,7 @@ export default function PerfilPage() {
               content={post.content}
               likes={post.likes}
               createdAt={post.createdAt}
-              comments={[]}
+              comments={post.comments}
               user={userProfile}
             />
           ))

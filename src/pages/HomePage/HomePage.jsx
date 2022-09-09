@@ -67,11 +67,9 @@ export default function HomePage() {
     } else {
       setHiddenMenu(false)
     }
-
-    console.log('Posição Atual: ', scrollPosition)
-    console.log('Ultima Posição', lastScrollPosition)
     setLastScrollPosition(scrollPosition)
   }
+
   return (
     <>
       <Navbar />

@@ -1,4 +1,5 @@
-.postContainer {
+.commentContainer {
+  margin-left: 5%;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -6,14 +7,14 @@
   border-bottom: 1px solid #7A828E;
 }
 
-.postContentContainer {
+.commentContentContainer {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.postContent {
+.commentContent {
   margin: 5px 0;
   padding: 15px 0;
   width: 90%;
@@ -21,9 +22,9 @@
   cursor: pointer;
 }
 
-.postInfo {
+.commentInfo {
   padding: 0px 10px;
-  padding-left: 12%;
+  padding-left: 15%;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -85,16 +86,12 @@
 }
 
 @media only screen and (max-width: 600px) {
-  .postContentContainer strong {
+  .commentContentContainer strong {
     font-size: 0.9rem;
   }
 
-  .postContentContainer small {
+  .commentContentContainer small {
     font-size: 0.8rem;
-  }
-
-  .postInfo {
-    padding: 0px 10px;
   }
 
   .likesComments {

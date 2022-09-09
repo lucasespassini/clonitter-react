@@ -55,7 +55,7 @@ export default function PlacementExample() {
               />
               Home
             </Link>
-            <Link className={styles.menuItem} to={'/'}>
+            <Link className={styles.menuItem} to={'/explore'}>
               <FontAwesomeIcon
                 className={styles.menuItemIcon}
                 icon={faMagnifyingGlass}

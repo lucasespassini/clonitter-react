@@ -3,40 +3,33 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 import 'moment/locale/pt-br'
-import styles from './Post.module.css'
+import styles from './Comment.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faComment, faHeart } from '@fortawesome/free-regular-svg-icons'
+import { faHeart } from '@fortawesome/free-regular-svg-icons'
 
 moment.locale('pt-br')
-export default function Post({
-  uuid,
-  content,
-  likes,
-  createdAt,
-  comments,
-  user,
-}) {
+export default function Comment({ content, likes, createdAt, user }) {
   const [timeAgo, setTimeAgo] = useState()
 
   useEffect(() => {
-    function postTime() {
-      const postData = new Date(createdAt).toLocaleString()
-      const data = postData.split(' ')[0]
-      const horas = postData.split(' ')[1]
+    function commentTime() {
+      const commentData = new Date(createdAt).toLocaleString()
+      const data = commentData.split(' ')[0]
+      const horas = commentData.split(' ')[1]
       const hora = horas.split(':')[0]
       const minuto = horas.split(':')[1]
       const segundo = horas.split(':')[2]
       const dia = data.split('/')[0]
       const mes = data.split('/')[1]
       const ano = data.split('/')[2]
-      const postDataCerta = `${ano}/${mes}/${dia} ${hora}:${minuto}:${segundo}`
-      setTimeAgo(moment(postDataCerta).fromNow())
+      const commentDataCerta = `${ano}/${mes}/${dia} ${hora}:${minuto}:${segundo}`
+      setTimeAgo(moment(commentDataCerta).fromNow())
     }
-    postTime()
+    commentTime()
   }, [createdAt])
 
   return (
-    <section className={styles.postContainer}>
+    <section className={styles.commentContainer}>
       <div style={{ display: 'flex' }}>
         <div style={{ width: '64px', height: '64px' }}>
           <Link to={user ? `/${user.user_name}` : '/'}>
@@ -49,30 +42,22 @@ export default function Post({
             />
           </Link>
         </div>
-        <div className={styles.postContentContainer}>
+        <div className={styles.commentContentContainer}>
           <Link to={`/${user.user_name}`}>
             <strong>{user.name}</strong>
             <small> @{user.user_name}</small>
           </Link>
-          <Link className={styles.postContent} to={`/post/${uuid}`}>
-            <p>{content}</p>
-          </Link>
+          <p style={{padding: '10px 0'}}>{content}</p>
         </div>
       </div>
-      <div className={styles.postInfo}>
+      <div className={styles.commentInfo}>
         <div className={styles.likesComments}>
           <div className={styles.containerIconLike}>
             <FontAwesomeIcon className={styles.likeIcon} icon={faHeart} />
             {likes}
           </div>
-          <div className={styles.containerIconComment}>
-            <FontAwesomeIcon className={styles.commentIcon} icon={faComment} />
-            {comments.length}
-          </div>
         </div>
-        <Link style={{ fontSize: '.8rem' }} to={`/post/${uuid}`}>
-          {timeAgo}
-        </Link>
+        <p style={{ fontSize: '.8rem' }}>{timeAgo}</p>
       </div>
     </section>
   )
