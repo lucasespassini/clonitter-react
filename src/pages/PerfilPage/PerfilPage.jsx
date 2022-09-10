@@ -8,6 +8,7 @@ import { api } from '../../services/api'
 import Navbar from '../../components/Navbar/Navbar'
 import BottomNavbar from '../../components/Navbar/BottomNavbar'
 import { AuthContext } from '../../contexts/auth'
+import EditModal from '../../components/Modal/EditModal/EditModal'
 
 export default function PerfilPage() {
   const { user } = useContext(AuthContext)
@@ -43,7 +44,7 @@ export default function PerfilPage() {
       }
     }
     getUser()
-  }, [user_name])
+  }, [user_name, user])
 
   useEffect(() => {
     for (const follower of followers) {
@@ -85,6 +86,7 @@ export default function PerfilPage() {
     <>
       <Navbar />
       <BottomNavbar />
+
       <Container maxW="650" padding="0">
         <Skeleton
           className={styles.bgContainer}
@@ -116,9 +118,7 @@ export default function PerfilPage() {
           </Skeleton>
           <Skeleton isLoaded={isLoaded} fadeDuration={0.3} borderRadius={5}>
             {pathname === `/${user.user_name}` ? (
-              <Button colorScheme="messenger" borderRadius={5}>
-                Editar Perfil
-              </Button>
+              <EditModal />
             ) : taSeguindo ? (
               <Button
                 colorScheme="messenger"
@@ -128,12 +128,7 @@ export default function PerfilPage() {
                 Deixar de seguir
               </Button>
             ) : (
-              <Button
-                colorScheme="messenger"
-                borderRadius={5}
-                onClick={seguir}
-                fontSize={width < 500 ? '0.5rem' : '1rem'}
-              >
+              <Button colorScheme="messenger" borderRadius={5} onClick={seguir}>
                 Seguir
               </Button>
             )}

@@ -34,7 +34,7 @@ export default function FotoPerfil() {
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    function log() {
+    function toggleImg() {
       setIsLoading(true)
       if (profile_image) {
         setSrcImage(URL.createObjectURL(profile_image))
@@ -43,7 +43,7 @@ export default function FotoPerfil() {
       }
       setIsLoading(false)
     }
-    log()
+    toggleImg()
   }, [profile_image])
 
   function removeImg(e) {
