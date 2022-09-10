@@ -8,6 +8,7 @@ import { AuthProvider, AuthContext } from './contexts/auth'
 import { useContext } from 'react'
 import CadastroPage from './pages/CadastroPage/CadastroPage'
 import ExplorePage from './pages/ExplorePage/ExplorePage'
+import FotoPerfil from './pages/CadastroPage/FotoPerfil'
 
 export default function AppRoutes() {
   function Private({ children }) {
@@ -25,6 +26,7 @@ export default function AppRoutes() {
         <Routes>
           <Route path="login" element={<LoginPage />} />
           <Route path="cadastro" element={<CadastroPage />} />
+          <Route path="finish/:auth" element={<FotoPerfil />} />
           <Route
             path="/"
             element={

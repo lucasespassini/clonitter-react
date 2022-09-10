@@ -1,19 +1,29 @@
 .containerLogo {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   user-select: none;
+  flex: 1;
 }
 
 .logo {
-  position: fixed;
-  top: 50px;
-  margin-bottom: 50px;
+  margin: 30px 0;
   font-family: 'Raleway', sans-serif;
   font-size: 2.5em;
   color: #0078FF;
 }
 
 .title {
-  font-size: 1.7em;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 1.9em;
   font-weight: 700;
+}
+
+.containerImage {
+  margin: 1rem calc(50% - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
 }

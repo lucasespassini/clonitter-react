@@ -8,6 +8,7 @@ import {
   InputGroup,
   InputRightElement,
   IconButton,
+  Spinner,
 } from '@chakra-ui/react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { useState, useContext } from 'react'
@@ -19,7 +20,8 @@ export default function CadastroPage() {
   const { errors, errouUser_name, errouName, errouEmail, errouSenha, signup } =
     useContext(AuthContext)
 
-  const [profile_image, setProfile_image] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
   const [user_name, setUser_name] = useState('')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -32,42 +34,37 @@ export default function CadastroPage() {
   const pass = () => setShowPass(!showPass)
   const confirmPass = () => setShowConfirmPass(!showConfirmPass)
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
+    setIsLoading(true)
     if (password !== confirmPassword) {
       setErrouConfirmSenha(true)
       errors.confirmPassError = 'As duas senhas não são iguais!'
+      setIsLoading(false)
     } else {
-      signup(profile_image, user_name, name, email, password)
+      const profile_image = null
+      await signup(profile_image, user_name, name, email, password)
+      setIsLoading(false)
     }
   }
 
   return (
     <Container
-      height={'100vh'}
+      paddingBottom="3rem"
       display="flex"
+      flex="1"
       flexDirection="column"
       justifyContent="center"
     >
+      <div className={styles.containerLogo}>
+        <h1 className={styles.logo}>Clonitter</h1>
+      </div>
       <h2 className={styles.title}>Cadastro</h2>
       <form
         encType="multipart/form-data"
         onSubmit={handleSubmit}
         className={styles.form}
       >
-        <FormControl>
-          <FormLabel marginTop={5} paddingX="1" fontSize="1.2rem">
-            Foto de perfil (Opcional)
-          </FormLabel>
-          <Input
-            type="file"
-            paddingX="1"
-            variant="flushed"
-            focusBorderColor="#0063D1"
-            onChange={e => setProfile_image(e.target.files[0])}
-          />
-        </FormControl>
-
         <FormControl isInvalid={errouUser_name}>
           <FormLabel marginTop={5} paddingX="1" fontSize="1.2rem">
             Nome de usuário
@@ -80,7 +77,6 @@ export default function CadastroPage() {
             focusBorderColor="#0063D1"
             value={user_name}
             onChange={e => setUser_name(e.target.value)}
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
           />
           <FormErrorMessage>{errors.user_nameError}</FormErrorMessage>
         </FormControl>
@@ -169,21 +165,36 @@ export default function CadastroPage() {
               />
             </InputRightElement>
           </InputGroup>
-          <FormErrorMessage>{errors.confirmPassError || errors.passwordError}</FormErrorMessage>
+          <FormErrorMessage>
+            {errors.confirmPassError || errors.passwordError}
+          </FormErrorMessage>
         </FormControl>
 
         <Button
           type="submit"
           colorScheme="messenger"
           marginTop={10}
+          marginBottom={3}
           width="100%"
           borderRadius={0}
-          onClick={handleSubmit}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
         >
           Cadastre-se
+          {isLoading && (
+            <Spinner
+              marginLeft={2}
+              thickness="2px"
+              speed="0.6s"
+              emptyColor="gray.200"
+              color="blue.500"
+              size="sm"
+            />
+          )}
         </Button>
+        <Link to={'/login'}>Já tem uma conta?</Link>
       </form>
-      <Link to={'/login'}>Já tem uma conta?</Link>
     </Container>
   )
 }

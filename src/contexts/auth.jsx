@@ -76,9 +76,13 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(data.payload))
       localStorage.setItem('token', data.token)
       api.defaults.headers.Authorization = `Bearer ${data.token}`
-      navigate('/')
+      const p1 = Math.floor(Math.random() * (999 - 100) + 100)
+      const p2 = Math.floor(Math.random() * (999 - 100) + 100)
+      const p3 = Math.floor(Math.random() * (999 - 100) + 100)
+      const auth = `${p1}-${p2}-${p3}`
+      localStorage.setItem('@finish-auth', auth)
+      navigate(`/finish/${auth}`)
     } catch (error) {
-      console.log(error)
       const errors = error.response.data.errors
       if (!errors.user_nameError) setErrouUser_name(false)
       if (!errors.nameError) setErrouName(false)

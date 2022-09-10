@@ -8,6 +8,7 @@ import {
   InputGroup,
   InputRightElement,
   IconButton,
+  Spinner,
 } from '@chakra-ui/react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { useState, useContext } from 'react'
@@ -18,14 +19,22 @@ import { Link } from 'react-router-dom'
 export default function LoginPage() {
   const { signin, errors, errouEmail, errouSenha } = useContext(AuthContext)
 
+  const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [show, setShow] = useState(false)
   const handleClick = () => setShow(!show)
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
-    signin(email, password)
+    setIsLoading(true)
+    try {
+      await signin(email, password)
+      setIsLoading(false)
+    } catch (error) {
+      console.log(error)
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -45,7 +54,7 @@ export default function LoginPage() {
             E-mail
           </FormLabel>
           <Input
-            type='email'
+            type="email"
             paddingX="1"
             variant="flushed"
             placeholder="Digite seu e-mail"
@@ -81,19 +90,33 @@ export default function LoginPage() {
             </InputRightElement>
           </InputGroup>
           <FormErrorMessage>{errors.passwordError}</FormErrorMessage>
-
-          <Button
-            type="submit"
-            colorScheme="messenger"
-            marginTop={10}
-            width="100%"
-            borderRadius={0}
-          >
-            Entrar
-          </Button>
         </FormControl>
+
+        <Button
+          type="submit"
+          colorScheme="messenger"
+          marginTop={10}
+          marginBottom={3}
+          width="100%"
+          borderRadius={0}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          Entrar
+          {isLoading && (
+            <Spinner
+              marginLeft={2}
+              thickness="2px"
+              speed="0.6s"
+              emptyColor="gray.200"
+              color="blue.500"
+              size="sm"
+            />
+          )}
+        </Button>
+        <Link to={'/cadastro'}>Não tem uma conta?</Link>
       </form>
-      <Link to={'/cadastro'}>Não tem uma conta?</Link>
     </Container>
   )
 }

@@ -32,11 +32,7 @@ export default function PlacementExample() {
   return (
     <>
       <FontAwesomeIcon className={styles.icon} icon={faBars} onClick={onOpen} />
-      <Drawer
-        isOpen={isOpen}
-        placement="right"
-        onClose={onClose}
-      >
+      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent backgroundColor="#0A0C10">
           <DrawerCloseButton marginY="2" />
