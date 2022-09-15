@@ -35,10 +35,12 @@
   width: 30%;
   display: flex;
   justify-content: space-around;
+  user-select: none;
 }
 
 .likesComments p {
   cursor: pointer;
+  user-select: none;
 }
 
 .containerIconLike,

@@ -82,6 +82,10 @@ export default function PerfilPage() {
     }
   }
 
+  function log() {
+    console.log(followings)
+  }
+
   return (
     <>
       <Navbar />
@@ -150,7 +154,7 @@ export default function PerfilPage() {
         </div>
 
         <div className={styles.profileInfoContainer}>
-          <Skeleton isLoaded={isLoaded} fadeDuration={0.3}>
+          <Skeleton onClick={log} isLoaded={isLoaded} fadeDuration={0.3}>
             <p>
               <strong>{numberFollowings}</strong> seguindo
             </p>

@@ -63,7 +63,7 @@ export default function LoginPage() {
             onChange={e => setEmail(e.target.value)}
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
           />
-          <FormErrorMessage>{errors.emailError}</FormErrorMessage>
+          <FormErrorMessage>{errors.emailError && errors.emailError}</FormErrorMessage>
         </FormControl>
 
         <FormControl isInvalid={errouSenha || errouEmail}>

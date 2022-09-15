@@ -18,6 +18,23 @@ export default function Post({
 }) {
   const [timeAgo, setTimeAgo] = useState()
 
+  // useEffect(() => {
+  //   function postTime() {
+  //     const postData = new Date(createdAt).toLocaleString()
+  //     const data = postData.split(' ')[0]
+  //     const horas = postData.split(' ')[1]
+  //     const hora = horas.split(':')[0]
+  //     const minuto = horas.split(':')[1]
+  //     const segundo = horas.split(':')[2]
+  //     const dia = data.split('/')[0]
+  //     const mes = data.split('/')[1]
+  //     const ano = data.split('/')[2]
+  //     const postDataCerta = `${ano}/${mes}/${dia} ${hora}:${minuto}:${segundo}`
+  //     setTimeAgo(moment(postDataCerta).fromNow())
+  //   }
+  //   postTime()
+  // }, [createdAt])
+
   useEffect(() => {
     function postTime() {
       const postData = new Date(createdAt).toLocaleString()
